@@ -1,0 +1,4 @@
+-- Q concatenates two copies of its input, so blc(Q) blc(Q) is a 132-bit
+-- quine for the universal machine: U(blc(Q) blc(Q) : Nil) = blc(Q) blc(Q).
+-- https://tromp.github.io/cl/Binary_lambda_calculus.html
+λ1((λ1 1)(λλλλλ1 4(3(5 5)2)))1

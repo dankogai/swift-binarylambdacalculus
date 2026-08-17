@@ -1,0 +1,8 @@
+-- A BLC program: write every bit of the input out twice.
+--   $ echo -n 'Hi' | blc run Examples/double.lam | xxd
+let
+  nil  = \a\b.b;
+  cons = \h\t\z.z h t;
+  step = \xs. xs (\h\t\_. cons h (cons h (step t))) nil;
+in
+  step

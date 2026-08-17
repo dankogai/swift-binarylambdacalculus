@@ -1,0 +1,3 @@
+-- U8, the byte-oriented universal machine, 355 bits (45 bytes in BLC8).
+-- https://tromp.github.io/cl/Binary_lambda_calculus.html
+λ1((λ1 1)(λ(λλλ1(λλλ2(λλλ(λ7(10(λ5(2(λλ3(λ1 2 3)))(11(λ3(λ3 1(2 1)))))3)(4(1(λ1 5)3)(10(λ2(λ2(1 6)))6)))8)(λ1(λ8 7(λ1 6 2))))(λ1(4 3)))(1 1))(λλ2((λ1 1)(λ1 1))))

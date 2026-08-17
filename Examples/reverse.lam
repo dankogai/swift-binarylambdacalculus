@@ -1,0 +1,15 @@
+-- A BLC8 program: write the input back out, backwards.
+--
+-- Written with names and `let`, which this package's parser adds to Tromp's
+-- notation; `blc print Examples/reverse.lam` shows what it comes to in
+-- De Bruijn indices.
+--
+-- Taking a list apart is an application: <h,t> M N reduces to M h t N, and
+-- nil M N reduces to N -- so M is the cons case, N the nil case, and M's
+-- third argument is N, which the cons case here ignores.
+let
+  nil  = \a\b.b;
+  cons = \h\t\z.z h t;
+  step = \xs\acc. xs (\h\t\_. step t (cons h acc)) acc;
+in
+  \input. step input nil
