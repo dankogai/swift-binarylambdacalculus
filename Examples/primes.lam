@@ -1,0 +1,5 @@
+-- 167 bits whose output is the characteristic sequence of the primes:
+-- 0011010100010100010100010000010100000100010100010000010000010100...
+-- proving KS(PRIMES) <= 167, itself a prime.
+-- https://tromp.github.io/cl/Binary_lambda_calculus.html
+λ(λ1(1((λ1 1)(λλλ1(λλ1)((λ4 4 1((λ1 1)(λ2(1 1))))(λλλλ1 3(2(6 4)))))(λλλ4(1 3)))))(λλ1(λλ2)2)

@@ -1,0 +1,3 @@
+-- The identity: four bits, and the shortest closed term there is.
+-- As a program it is cat.
+\x.x

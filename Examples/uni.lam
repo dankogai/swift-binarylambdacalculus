@@ -1,0 +1,4 @@
+-- John Tromp's universal machine U, 232 bits: reads a BLC program off the
+-- front of its input and runs it on the rest.
+-- https://tromp.github.io/cl/Binary_lambda_calculus.html
+(λ1 1)(λλλ1(λλλλ3(λ5(3(λ2(3(λλ3(λ1 2 3)))(4(λ4(λ3 1(2 1))))))(1(2(λ1 2))(λ4(λ4(λ2(1 4)))5))))(3 3)2)(λ1((λ1 1)(λ1 1)))

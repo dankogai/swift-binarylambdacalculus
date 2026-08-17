@@ -1,0 +1,4 @@
+-- 55 bits that output 2^2^2^2 = 65536 ones, using Church numerals.
+-- gzip needs 344 bits to say the same thing, bzip2 352.
+-- https://tromp.github.io/cl/Binary_lambda_calculus.html
+(λ1 1 1 1(λλ1(λλ1)2))(λλ2(2 1))
