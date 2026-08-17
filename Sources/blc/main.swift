@@ -49,12 +49,7 @@ let usage = """
                                                    -- ...and run it under U8
     """
 
-// a downstream `head` closing the pipe is not an error, so take SIGPIPE by
-// hand rather than by death
-_ = signal(SIGPIPE, SIG_IGN)
-
 func fail(_ message: String) -> Never {
-    fflush(stdout)
     FileHandle.standardError.write(Data("blc: \(message)\n".utf8))
     exit(1)
 }
@@ -133,20 +128,22 @@ guard program.isClosed || !action.hasPrefix("run") else {
 
 // MARK: - output
 
-/// Output goes out as it is produced, rather than a buffer at a time: a
-/// program's output can take a while to arrive, and waiting for 4kB of it
-/// before showing any would make a generator look like a hang.
+/// Writes straight to standard output, unbuffered: a program's output can
+/// take a while to arrive, and holding on to a bufferful of it before showing
+/// any would make a generator look like a hang.  A reader that stops reading
+/// stops us with SIGPIPE, as it does any other filter.
 func emit(_ bytes: [UInt8]) {
-    guard fwrite(bytes, 1, bytes.count, stdout) == bytes.count else {
-        if errno == EPIPE { exit(0) }
-        fail("cannot write: \(String(cString: strerror(errno)))")
+    var offset = 0
+    while offset < bytes.count {
+        let written = bytes.withUnsafeBytes {
+            write(1, $0.baseAddress! + offset, $0.count - offset)
+        }
+        guard written > 0 else { fail("cannot write to standard output") }
+        offset += written
     }
-    fflush(stdout)
 }
 
 func emit(_ byte: UInt8) { emit([byte]) }
-
-func flush() { fflush(stdout) }
 
 // MARK: - actions
 
@@ -157,7 +154,6 @@ case "blc":
     print(program.bitString)
 case "pack":
     emit(program.packed)
-    flush()
 case "size":
     print(program.size)
 case "nf":
@@ -185,7 +181,6 @@ case "run":
         }
     }
     if !bits.isEmpty { emit(bits.packed[0]) }
-    flush()
     if let error = stream.error { fail("\(error)") }
 
 case "run8":
@@ -197,7 +192,6 @@ case "run8":
         limit: limit
     )
     while let byte = stream.next() { emit(byte) }
-    flush()
     if let error = stream.error { fail("\(error)") }
 
 default:
